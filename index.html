@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Student Budget System</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="logo">
+      <span class="logo-icon">₹</span>
+      <span class="logo-text">BudgetU</span>
+    </div>
+    <nav class="nav">
+      <a href="#" class="nav-item active" data-tab="dashboard">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        Dashboard
+      </a>
+      <a href="#" class="nav-item" data-tab="add">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+        Add Transaction
+      </a>
+      <a href="#" class="nav-item" data-tab="transactions">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+        Transactions
+      </a>
+      <a href="#" class="nav-item" data-tab="goals">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+        Budget Goals
+      </a>
+      <a href="#" class="nav-item" data-tab="reports">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        Reports
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="btn-reset" id="resetBtn">Reset All Data</button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main">
+
+    <!-- DASHBOARD TAB -->
+    <section id="tab-dashboard" class="tab-content active">
+      <div class="page-header">
+        <div>
+          <h1>Dashboard</h1>
+          <p class="subtitle" id="currentMonth"></p>
+        </div>
+        <div class="month-selector">
+          <select id="monthFilter">
+            <option value="all">All Time</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card income">
+          <span class="stat-label">Total Income</span>
+          <span class="stat-value" id="totalIncome">₹0</span>
+          <span class="stat-change" id="incomeCount">0 entries</span>
+        </div>
+        <div class="stat-card expense">
+          <span class="stat-label">Total Expenses</span>
+          <span class="stat-value" id="totalExpense">₹0</span>
+          <span class="stat-change" id="expenseCount">0 entries</span>
+        </div>
+        <div class="stat-card savings">
+          <span class="stat-label">Net Savings</span>
+          <span class="stat-value" id="netSavings">₹0</span>
+          <span class="stat-change" id="savingsRate">0% savings rate</span>
+        </div>
+        <div class="stat-card balance">
+          <span class="stat-label">Current Balance</span>
+          <span class="stat-value" id="currentBalance">₹0</span>
+          <span class="stat-change" id="balanceStatus">—</span>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="card">
+          <div class="card-header">
+            <h2>Recent Transactions</h2>
+            <a href="#" class="link-btn" data-tab="transactions">View all →</a>
+          </div>
+          <div id="recentTransactions" class="tx-list">
+            <p class="empty-state">No transactions yet. Add your first one!</p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <h2>Spending by Category</h2>
+          </div>
+          <div class="chart-wrap">
+            <canvas id="dashPieChart"></canvas>
+          </div>
+          <div id="categoryLegend" class="legend"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><h2>Monthly Overview</h2></div>
+        <div class="chart-wrap-wide">
+          <canvas id="monthlyBarChart"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- ADD TRANSACTION TAB -->
+    <section id="tab-add" class="tab-content">
+      <div class="page-header">
+        <div>
+          <h1>Add Transaction</h1>
+          <p class="subtitle">Log your income or expense</p>
+        </div>
+      </div>
+
+      <div class="form-layout">
+        <div class="card form-card">
+          <div class="type-toggle">
+            <button class="toggle-btn active" id="typeIncome" data-type="income">Income</button>
+            <button class="toggle-btn" id="typeExpense" data-type="expense">Expense</button>
+          </div>
+
+          <div class="form-group">
+            <label>Description</label>
+            <input type="text" id="txDesc" placeholder="e.g. Hostel fee, Part-time job..." maxlength="60"/>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Amount (₹)</label>
+              <input type="number" id="txAmount" placeholder="0.00" min="0" step="0.01"/>
+            </div>
+            <div class="form-group">
+              <label>Date</label>
+              <input type="date" id="txDate"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Category</label>
+            <select id="txCategory">
+              <option value="">Select category</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Note (optional)</label>
+            <textarea id="txNote" placeholder="Any extra details..." rows="2"></textarea>
+          </div>
+
+          <button class="btn-primary" id="addTxBtn">Add Transaction</button>
+          <div id="formMsg" class="form-msg"></div>
+        </div>
+
+        <div class="quick-stats card">
+          <h3>Quick Tips</h3>
+          <ul class="tips-list">
+            <li>Track every small expense — chai, snacks, auto rides.</li>
+            <li>Set aside at least 10% of any income you receive.</li>
+            <li>Use budget goals to cap category spending.</li>
+            <li>Review your spending weekly to stay on track.</li>
+          </ul>
+          <div class="divider"></div>
+          <h3>Today's Summary</h3>
+          <div class="today-stats">
+            <div><span class="ts-label">Today In</span><span class="ts-val green" id="todayIn">₹0</span></div>
+            <div><span class="ts-label">Today Out</span><span class="ts-val red" id="todayOut">₹0</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRANSACTIONS TAB -->
+    <section id="tab-transactions" class="tab-content">
+      <div class="page-header">
+        <div>
+          <h1>Transactions</h1>
+          <p class="subtitle" id="txCount">0 records</p>
+        </div>
+      </div>
+
+      <div class="filter-bar card">
+        <input type="text" id="searchTx" placeholder="Search transactions..."/>
+        <select id="filterType">
+          <option value="all">All Types</option>
+          <option value="income">Income</option>
+          <option value="expense">Expense</option>
+        </select>
+        <select id="filterCategory">
+          <option value="all">All Categories</option>
+        </select>
+        <select id="filterMonth">
+          <option value="all">All Months</option>
+        </select>
+        <button class="btn-outline" id="clearFilters">Clear</button>
+      </div>
+
+      <div class="card">
+        <table class="tx-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Description</th>
+              <th>Category</th>
+              <th>Type</th>
+              <th class="right">Amount</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="txTableBody">
+            <tr><td colspan="6" class="empty-state">No transactions yet.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- BUDGET GOALS TAB -->
+    <section id="tab-goals" class="tab-content">
+      <div class="page-header">
+        <div>
+          <h1>Budget Goals</h1>
+          <p class="subtitle">Set monthly spending limits per category</p>
+        </div>
+      </div>
+
+      <div class="goals-layout">
+        <div class="card">
+          <h2 style="margin-bottom:1rem">Set a Goal</h2>
+          <div class="form-group">
+            <label>Category</label>
+            <select id="goalCategory"></select>
+          </div>
+          <div class="form-group">
+            <label>Monthly Limit (₹)</label>
+            <input type="number" id="goalAmount" placeholder="e.g. 3000" min="0"/>
+          </div>
+          <button class="btn-primary" id="saveGoalBtn">Save Goal</button>
+        </div>
+
+        <div class="goals-list" id="goalsList">
+          <p class="empty-state">No goals set yet.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- REPORTS TAB -->
+    <section id="tab-reports" class="tab-content">
+      <div class="page-header">
+        <div>
+          <h1>Reports</h1>
+          <p class="subtitle">Understand your spending patterns</p>
+        </div>
+        <select id="reportMonth">
+          <option value="all">All Time</option>
+        </select>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card income">
+          <span class="stat-label">Avg Monthly Income</span>
+          <span class="stat-value" id="avgIncome">₹0</span>
+        </div>
+        <div class="stat-card expense">
+          <span class="stat-label">Avg Monthly Expense</span>
+          <span class="stat-value" id="avgExpense">₹0</span>
+        </div>
+        <div class="stat-card savings">
+          <span class="stat-label">Biggest Expense</span>
+          <span class="stat-value" id="biggestExpense">—</span>
+        </div>
+        <div class="stat-card balance">
+          <span class="stat-label">Top Category</span>
+          <span class="stat-value" id="topCategory">—</span>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="card">
+          <div class="card-header"><h2>Income vs Expense</h2></div>
+          <div class="chart-wrap">
+            <canvas id="reportDoughnut"></canvas>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><h2>Category Breakdown</h2></div>
+          <div class="chart-wrap">
+            <canvas id="reportBar"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><h2>Monthly Trend</h2></div>
+        <div class="chart-wrap-wide">
+          <canvas id="trendLine"></canvas>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Toast -->
+  <div id="toast" class="toast"></div>
+
+  <script src="storage.js"></script>
+<script src="transactions.js"></script>
+<script src="charts.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
