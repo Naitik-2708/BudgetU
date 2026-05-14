@@ -1,10 +1,10 @@
-# 🎓 Student Budget System
+#  Student Budget System
 
 A clean, fully-featured personal finance tracker built for students. Track income, log expenses, set budget goals, and visualize spending — all stored locally in your browser.
 
 ---
 
-## ✨ Features
+##  Features
 
 - **Dashboard** — Real-time summary cards: income, expenses, savings, balance
 - **Add Transaction** — Log income or expenses with categories, dates, and notes
@@ -12,7 +12,7 @@ A clean, fully-featured personal finance tracker built for students. Track incom
 - **Budget Goals** — Set monthly spending caps per category with visual progress bars
 - **Reports** — Charts showing trends, category breakdowns, income vs expense
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 | Layer | Technology |
 |-------|-----------|
@@ -21,7 +21,7 @@ A clean, fully-featured personal finance tracker built for students. Track incom
 | Storage | Browser `localStorage` |
 | Fonts | Space Grotesk + DM Mono (Google Fonts) |
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 student-budget-system/
@@ -46,25 +46,25 @@ student-budget-system/
 
 2. Open `index.html` directly in your browser — no build step, no server needed.
 
-## 💡 Usage Guide
+##  Usage Guide
 
 - Start by clicking **Add Transaction** and logging your first income (stipend, pocket money, etc.)
-- Add expenses daily — food, transport, stationery, etc.
+- Add expenses daily  food, transport, stationery, etc.
 - Go to **Budget Goals** to set monthly limits for each category
 - Visit **Reports** to see where your money is going
 - Use the month filter on the Dashboard to review past months
 
-## 🗓️ Categories
+##  Categories
 
 **Income**: Stipend/Scholarship, Part-time Job, Family Transfer, Freelance, Other Income
 
 **Expense**: Food & Canteen, Hostel/Rent, Transport, Books & Stationery, Clothing, Mobile/Internet, Entertainment, Medical, Gym & Sports, Miscellaneous
 
-## 📸 Screenshots
+##  Screenshots
 
 > Add screenshots here after deployment
 
-## 🔮 Future Enhancements
+##  Future Enhancements
 
 - [ ] Export data to CSV
 - [ ] Dark mode toggle
@@ -73,7 +73,7 @@ student-budget-system/
 - [ ] PWA / installable app
 - [ ] Multi-currency support
 
-## 📄 License
+##  License
 
 MIT License — free to use and modify.
 
